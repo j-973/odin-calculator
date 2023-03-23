@@ -5,10 +5,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata&display=swap" rel="stylesheet">
     <script src="script.js" defer></script>
     <title>- Calculator -</title>
 </head>
 <body>
-    
+    <div id="wrapper">
+        <h1>Calculator.</h1>
+            <div id="calculator-container">
+                <div id="results-container">
+                    1234567890
+                </div>
+                <div class="row">
+                    <button class="number">7</button>
+                    <button class="number">8</button>
+                    <button class="number">9</button>
+                    <button class="operator" id="division">÷</button></div>
+                <div class="row">
+                    <button class="number">4</button>
+                    <button class="number">5</button>
+                    <button class="number">6</button>
+                    <button class="operator" id="multiplication">×</button></div>
+                <div class="row">
+                    <button class="number">1</button>
+                    <button class="number">2</button>
+                    <button class="number">3</button>
+                    <button class="operator" id="subtraction">-</button></div>
+                <div class="row">
+                    <button id="clear">C</button>
+                    <button class="number">0</button>
+                    <button id="equals">=</button>
+                    <button class="operator" id="addition">+</button></div>
+            </div>
+    </div>
 </body>
 </html>
