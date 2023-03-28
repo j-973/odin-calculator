@@ -1,7 +1,41 @@
-//Matching the "3 + 5" example given on the instructions page
-let firstNumber = 3;
-let operator = "+";
-let secondNumber = 5;
+const display = document.getElementById("display-container");
+const numpad = document.getElementById("numpad-container");
+let displayText = "";
+
+updateDisplay = (ev) => {
+  //ev.target refers to the specific button that the user clicks (the target of the click event).
+  let clickedButton = ev.target;
+  switch (clickedButton.id) {
+    case "division":
+      displayText += "÷";
+      break;
+    case "multiplication":
+      displayText += "×";
+      break;
+    case "addition":
+      displayText += "+";
+      break;
+    case "subtraction":
+      displayText += "-";
+      break;
+    case "equals":
+      displayText += "=";
+      break;
+    case "clear":
+      displayText = "";
+      break;
+    default:
+      //adds the corresponding button's value property as defined in index.html if none of the above cases evaluate true
+      displayText += clickedButton.value;
+  }
+
+  //once the value of displayText is determined, assign it as new text in the calculator's display container div
+  return display.textContent = displayText;
+}
+
+//with EVENT DELEGATION, this single event listener on the parent div handles the click events that "bubble" up from each of the many buttons within the div. 
+//By default, events are handled by the innermost element in the DOM (in this case, the buttons), and propagate to outer elements (numpad div or parent div), called event bubbling.
+numpad.addEventListener("click", updateDisplay);
 
 add = (a, b) => {
     return a + b;
@@ -35,9 +69,3 @@ operate = (firstNumber, operator, secondNumber) => {
   }
 }
 
-//TESTING operate function:
-console.log(operate(3, "+", 5)); //8
-console.log(operate(3, "-", 5)); //-2
-console.log(operate(3, "*", 5)); //15
-console.log(operate(10, "/", 5)); //2
-console.log(operate(3, "/", 0)); //Error: cannot divide by zero

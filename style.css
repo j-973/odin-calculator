@@ -50,8 +50,9 @@ button {
     max-width: 98vw;
 }
 
-#results-container {
+#display-container {
     flex: 1;
+    min-height: 2rem;
     background-color: #FFFFFF;
     font-size: 2rem;
     border: 2px solid #000000;
