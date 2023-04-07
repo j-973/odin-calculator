@@ -6,29 +6,48 @@ let firstNumber = "";
 let operator = "";
 let secondNumber = "";
 
+let result = "";
+
+//If an operator is already stored in the operator variable, call the operate function to evaluate the immediate pair of firstNumber and secondNumber
+//Then, the result of that pair's evaluation becomes assigned to firstNumber for the next operation, and so on
+//the displayText is also updated to reflect the results of each pair's evaluation as well
+//As users click any of the operator buttons, they will see the results from each operation step as they are added
+evaluateCurrentPair = () => {
+  if (operator !== "") {
+    result = operate(firstNumber, operator, secondNumber);
+    firstNumber = result;
+    secondNumber = "";
+    displayText = result.toString();
+  }
+}
+
 updateDisplay = (ev) => {
   //ev.target refers to the specific button that the user clicks (the target of the click event).
   let clickedButton = ev.target;
   switch (clickedButton.id) {
     case "division":
+      evaluateCurrentPair();
       operator = "÷";
       displayText += operator;
       break;
 case "multiplication":
+      evaluateCurrentPair();
       operator = "×";
       displayText += operator;
       break;
     case "addition":
+      evaluateCurrentPair();
       operator = "+";
       displayText += operator;
       break;
     case "subtraction":
+      evaluateCurrentPair();
       operator = "-";
       displayText += operator;
       break;
     //when the user clicks the equals button, store the called operate function in the result variable. 
     case "equals":
-      let result = operate(firstNumber, operator, secondNumber);
+      result = operate(firstNumber, operator, secondNumber);
     //use tostring to convert the result to a string so it can be displayed by displayText
       displayText = result.toString();
       break;
@@ -37,6 +56,7 @@ case "multiplication":
       operator = "";
       secondNumber = "";
       displayText = "";
+      result = "";
       break;
     ////adds the corresponding button's value property as defined in index.html if none of the above cases evaluate true
     //if the operator hasn't been clicked yet, all user clicks update the first number and the display text. 
@@ -49,7 +69,6 @@ case "multiplication":
         secondNumber += clickedButton.value;
         displayText += clickedButton.value;
       }
-
   }
 
   //once the value of displayText is determined, assign it as new text in the calculator's display container div
