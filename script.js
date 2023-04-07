@@ -1,13 +1,19 @@
-const display = document.getElementById("display-container");
-const numpad = document.getElementById("numpad-container");
-const MAX_DISPLAY_LENGTH = 19; //number of characters that can fit in the calculator display
+const DISPLAY = document.getElementById("display-container"),
+      NUMPAD = document.getElementById("numpad-container"),
+      MAX_DISPLAY_LENGTH = 19, //number of characters that can fit in the calculator display
+      MSG_DIV_BY_ZERO = "you broke it ;(";
 
-let displayText = "";
-let firstNumber = "";
-let operator = "";
-let secondNumber = "";
+let displayText = "",
+    firstNumber = "",
+    operator = "",
+    secondNumber = "",
+    result = "";
 
-let result = "";
+checkDivByZero = () => { 
+  if (result === MSG_DIV_BY_ZERO) {
+    displayText = MSG_DIV_BY_ZERO;
+  return;
+}}
 
 //if the result doesn't fit in the calculator display, convert it to exponential notation to shorten it
 roundAndDisplay = () => {
@@ -18,14 +24,15 @@ roundAndDisplay = () => {
     return displayText;
 }
 
-//If an operator is already stored in the operator variable, call the operate function to evaluate the immediate pair of firstNumber and secondNumber
+//If the user has entered each part of an expression, call the operate function to evaluate the immediate pair of firstNumber and secondNumber
 //Then, the result of that pair's evaluation becomes assigned to firstNumber for the next operation, and so on. 
 //secondNumber is set to empty for the next operation, too.
 //the displayText is also updated to reflect the results of each pair's evaluation as well
 //As users click any of the operator buttons, they will see the results from each operation step as they are added
 evaluateCurrentPair = () => {
-  if (operator !== "") {
+  if (firstNumber != "" && operator != "" && secondNumber != "") {
     result = operate(firstNumber, operator, secondNumber);
+    checkDivByZero();
     firstNumber = result;
     secondNumber = "";
     roundAndDisplay();
@@ -57,16 +64,10 @@ case "multiplication":
       displayText += operator;
       break;
     case "equals":
-      result = operate(firstNumber, operator, secondNumber);
-    //use tostring to convert the result to a string so it can be displayed by displayText
-      displayText = result.toString();
+      evaluateCurrentPair();
       break;
     case "clear":
-      firstNumber = "";
-      operator = "";
-      secondNumber = "";
-      displayText = "";
-      result = "";
+      displayText = firstNumber = operator = secondNumber = result = "";
       break;
 
     //adds the corresponding button's value property as defined in index.html if none of the above cases evaluate true
@@ -83,12 +84,12 @@ case "multiplication":
   }
 
   //once the value of displayText is determined, assign it as new text in the calculator's display container div
-  return display.textContent = displayText;
+  return DISPLAY.textContent = displayText;
 }
 
 //with EVENT DELEGATION, this single event listener on the parent div handles the click events that "bubble" up from each of the many buttons within the div. 
 //By default, events are handled by the innermost element in the DOM where the event happens (in this case, the buttons), and propagate to outer elements (numpad div or parent div), called event bubbling.
-numpad.addEventListener("click", updateDisplay);
+NUMPAD.addEventListener("click", updateDisplay);
 
 add = (a, b) => {
     return a + b;
@@ -101,7 +102,7 @@ multiply = (a, b) => {
 };
 divide = (numerator, denominator) => {
     if (denominator === 0) {
-      return 'Error: Cannot divide by zero';
+      return MSG_DIV_BY_ZERO;
     }
     return numerator / denominator;
 };
