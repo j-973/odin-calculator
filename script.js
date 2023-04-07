@@ -1,6 +1,7 @@
 const display = document.getElementById("display-container");
 const numpad = document.getElementById("numpad-container");
-//in addition to displayText, created variables for the firstNumber, operator, and secondNumber so they can be used with the operate function.
+const MAX_DISPLAY_LENGTH = 19; //number of characters that can fit in the calculator display
+
 let displayText = "";
 let firstNumber = "";
 let operator = "";
@@ -8,8 +9,18 @@ let secondNumber = "";
 
 let result = "";
 
+//if the result doesn't fit in the calculator display, convert it to exponential notation to shorten it
+roundAndDisplay = () => {
+  if (result.length > MAX_DISPLAY_LENGTH) {
+    result.toExponential(MAX_DISPLAY_LENGTH);
+  }
+    displayText = result.toString();
+    return displayText;
+}
+
 //If an operator is already stored in the operator variable, call the operate function to evaluate the immediate pair of firstNumber and secondNumber
-//Then, the result of that pair's evaluation becomes assigned to firstNumber for the next operation, and so on
+//Then, the result of that pair's evaluation becomes assigned to firstNumber for the next operation, and so on. 
+//secondNumber is set to empty for the next operation, too.
 //the displayText is also updated to reflect the results of each pair's evaluation as well
 //As users click any of the operator buttons, they will see the results from each operation step as they are added
 evaluateCurrentPair = () => {
@@ -17,7 +28,7 @@ evaluateCurrentPair = () => {
     result = operate(firstNumber, operator, secondNumber);
     firstNumber = result;
     secondNumber = "";
-    displayText = result.toString();
+    roundAndDisplay();
   }
 }
 
@@ -45,7 +56,6 @@ case "multiplication":
       operator = "-";
       displayText += operator;
       break;
-    //when the user clicks the equals button, store the called operate function in the result variable. 
     case "equals":
       result = operate(firstNumber, operator, secondNumber);
     //use tostring to convert the result to a string so it can be displayed by displayText
@@ -58,7 +68,8 @@ case "multiplication":
       displayText = "";
       result = "";
       break;
-    ////adds the corresponding button's value property as defined in index.html if none of the above cases evaluate true
+
+    //adds the corresponding button's value property as defined in index.html if none of the above cases evaluate true
     //if the operator hasn't been clicked yet, all user clicks update the first number and the display text. 
     //After the operator has been clicked, update the second number and the display.
     default:
@@ -82,15 +93,12 @@ numpad.addEventListener("click", updateDisplay);
 add = (a, b) => {
     return a + b;
 };
-  
 subtract = (a, b) => {
     return a - b;
 };
-  
 multiply = (a, b) => {
     return a * b;
 };
-  
 divide = (numerator, denominator) => {
     if (denominator === 0) {
       return 'Error: Cannot divide by zero';
@@ -115,4 +123,3 @@ operate = (firstNumber, operator, secondNumber) => {
       return divide(firstNumber, secondNumber);
   }
 }
-
