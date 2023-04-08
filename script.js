@@ -16,9 +16,10 @@ checkDivByZero = () => {
 }}
 
 //if the result doesn't fit in the calculator display, convert it to exponential notation to shorten it
+//updating result with its exponential conversion, so that large numbers in exponential notation are represented properly in calculations
 roundAndDisplay = () => {
   if (result.length > MAX_DISPLAY_LENGTH) {
-    result.toExponential(MAX_DISPLAY_LENGTH);
+    result = result.toExponential(MAX_DISPLAY_LENGTH);
   }
     displayText = result.toString();
     return displayText;
@@ -48,7 +49,7 @@ updateDisplay = (ev) => {
       operator = "÷";
       displayText += operator;
       break;
-case "multiplication":
+    case "multiplication":
       evaluateCurrentPair();
       operator = "×";
       displayText += operator;

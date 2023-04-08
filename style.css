@@ -28,12 +28,17 @@ button {
 }
     button:hover {
         font-size: 1.75rem;
+        cursor: pointer;
     }
 
 .row {
     display: flex;
     flex-direction: row;
     flex: 1;
+}
+
+.function {
+    background-color: #A9A6B1;
 }
 
 .operator {
