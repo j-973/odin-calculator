@@ -28,7 +28,6 @@ roundAndDisplay = () => {
 //If the user has entered each part of an expression, call the operate function to evaluate the immediate pair of firstNumber and secondNumber
 //Then, the result of that pair's evaluation becomes assigned to firstNumber for the next operation, and so on. 
 //secondNumber is set to empty for the next operation, too.
-//the displayText is also updated to reflect the results of each pair's evaluation as well
 //As users click any of the operator buttons, they will see the results from each operation step as they are added
 evaluateCurrentPair = () => {
   if (firstNumber != "" && operator != "" && secondNumber != "") {
@@ -41,9 +40,21 @@ evaluateCurrentPair = () => {
 }
 
 updateDisplay = (ev) => {
-  //ev.target refers to the specific button that the user clicks (the target of the click event).
   let clickedButton = ev.target;
   switch (clickedButton.id) {
+    //adds a decimal only if one isn't already part of the number. If there's an opertaor, decimals are added to the second number
+    case "decimal":
+      if (operator === "") {
+        if (!firstNumber.includes(".")) {
+          firstNumber += ".";
+          displayText += ".";
+        }
+      } 
+      else if (!secondNumber.includes(".")) {
+          secondNumber += ".";
+          displayText += ".";
+        }
+      break;
     case "division":
       evaluateCurrentPair();
       operator = "÷";
@@ -70,10 +81,6 @@ updateDisplay = (ev) => {
     case "clear":
       displayText = firstNumber = operator = secondNumber = result = "";
       break;
-
-    //adds the corresponding button's value property as defined in index.html if none of the above cases evaluate true
-    //if the operator hasn't been clicked yet, all user clicks update the first number and the display text. 
-    //After the operator has been clicked, update the second number and the display.
     default:
       if (operator === "") {
         firstNumber += clickedButton.value;
