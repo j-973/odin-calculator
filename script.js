@@ -81,6 +81,9 @@ updateDisplay = (ev) => {
     case "clear":
       displayText = firstNumber = operator = secondNumber = result = "";
       break;
+		case "backspace":
+			deleteInput();
+			break;
     default:
       if (operator === "") {
         firstNumber += clickedButton.value;
@@ -130,5 +133,30 @@ operate = (firstNumber, operator, secondNumber) => {
       return multiply(firstNumber, secondNumber);
     case "÷":
       return divide(firstNumber, secondNumber);
+  }
+}
+
+deleteInput = () => {
+  //If there's a result from a previous calculation, 
+  //whatever is in displayText becomes the value of firstNumber for the new calculation (minus 1 char to account for the backspace).
+  //slice method returns a copy of displayText with 1 fewer char at the end
+  //operator, secondNumber, and the result are cleared, and displayText is updated to reflect the backspace.
+  //if a result hasn't been calculated yet, remove 1 char from the latest part of the expression and update the display accordingly.
+
+  if (result) {
+    firstNumber = displayText.slice(0, -1);
+    secondNumber = "";
+    operator = "";
+    result = "";
+    displayText = firstNumber;
+  } else if (secondNumber) {
+    secondNumber = secondNumber.slice(0, -1)
+    displayText = firstNumber + operator + secondNumber;
+  } else if (operator) {
+    operator = "";
+    displayText = firstNumber;
+  } else if (firstNumber) {
+    firstNumber = firstNumber.slice(0, -1);
+    displayText = firstNumber;
   }
 }
