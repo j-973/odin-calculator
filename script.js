@@ -9,6 +9,19 @@ let displayText = "",
     secondNumber = "",
     result = "";
 
+checkDecimal = () => {
+  if (operator === "") {
+    if (!firstNumber.includes(".")) {
+        firstNumber += ".";
+        displayText += ".";
+    } 
+  } 
+else if (!secondNumber.includes(".")) {
+    secondNumber += ".";
+    displayText += ".";
+  }
+}
+
 checkDivByZero = () => { 
   if (result === MSG_DIV_BY_ZERO) {
     displayText = MSG_DIV_BY_ZERO;
@@ -39,21 +52,58 @@ evaluateCurrentPair = () => {
   }
 }
 
-updateDisplay = (ev) => {
+handleKeypress = (ev)  => {
+  let pressedKey = ev.key;
+  switch (pressedKey) {
+      case '.':
+          checkDecimal();
+          break;
+      case '/':
+          evaluateCurrentPair();
+          operator = "÷";
+          displayText += operator;
+          break;
+      case '*':
+          evaluateCurrentPair();
+          operator = "×";
+          displayText += operator;
+          break;
+      case '+':
+          evaluateCurrentPair();
+          operator = "+";
+          displayText += operator;
+          break;
+      case '-':
+          evaluateCurrentPair();
+          operator = "-";
+          displayText += operator;
+          break;
+      case 'Enter':
+          evaluateCurrentPair();
+          break;
+      case 'Backspace':
+        deleteInput();
+    break;
+      default:
+        if ('0' <= pressedKey <= '9') {
+            if (operator === "") {
+                firstNumber += pressedKey;
+                displayText += pressedKey;
+            } else {
+                secondNumber += pressedKey;
+                displayText += pressedKey;
+            }
+        }
+  }
+
+    return DISPLAY.textContent = displayText;
+}
+
+handleClick = (ev) => {
   let clickedButton = ev.target;
   switch (clickedButton.id) {
-    //adds a decimal only if one isn't already part of the number. If there's an opertaor, decimals are added to the second number
     case "decimal":
-      if (operator === "") {
-        if (!firstNumber.includes(".")) {
-          firstNumber += ".";
-          displayText += ".";
-        }
-      } 
-      else if (!secondNumber.includes(".")) {
-          secondNumber += ".";
-          displayText += ".";
-        }
+      checkDecimal();
       break;
     case "division":
       evaluateCurrentPair();
@@ -98,9 +148,9 @@ updateDisplay = (ev) => {
   return DISPLAY.textContent = displayText;
 }
 
-//with EVENT DELEGATION, this single event listener on the parent div handles the click events that "bubble" up from each of the many buttons within the div. 
-//By default, events are handled by the innermost element in the DOM where the event happens (in this case, the buttons), and propagate to outer elements (numpad div or parent div), called event bubbling.
-NUMPAD.addEventListener("click", updateDisplay);
+//for keyboard controls, adding the event listener to the window ensures that the user can input keypresses as long as the window is active
+NUMPAD.addEventListener("click", handleClick);
+window.addEventListener("keydown", handleKeypress);
 
 add = (a, b) => {
     return a + b;
