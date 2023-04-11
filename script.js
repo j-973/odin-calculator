@@ -55,11 +55,10 @@ evaluateCurrentPair = () => {
 }
 
 handleKeypress = (ev)  => {
-  const IGNORED_KEYS = ["Shift", "Control", "Alt", "Tab", "CapsLock"];
+  const ALLOWED_KEYS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "/", "*", "+", "-", "=", "c", "Backspace", "Enter"];
   let pressedKey = ev.key;
-
-  //if the key the user presses is included in the ignored keys array, prevent the default behavior (modifier keys showing on display)
-  if (IGNORED_KEYS.includes(pressedKey)) {
+  //prevents default behavior if the user's keypress is not included in the allowed keys array
+  if (!ALLOWED_KEYS.includes(pressedKey)) {
     ev.preventDefault();
     return;
   }
