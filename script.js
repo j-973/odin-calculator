@@ -1,6 +1,6 @@
 const DISPLAY = document.getElementById("display-container"),
       NUMPAD = document.getElementById("numpad-container"),
-      MAX_DISPLAY_LENGTH = 19, //number of characters that can fit in the calculator display
+      MAX_DISPLAY_LENGTH = 19,    //number of characters that can fit in the calculator display
       MSG_DIV_BY_ZERO = "you broke it ;(";
 
 let displayText = "",
@@ -30,8 +30,7 @@ checkDivByZero = () => {
   return;
 }}
 
-//if the result doesn't fit in the calculator display, convert it to exponential notation to shorten it
-//updating result with its exponential conversion, so that large numbers in exponential notation are represented properly in calculations
+//convert's results to exponential notation so they fit on the calculator display
 roundAndDisplay = () => {
   if (result.length > MAX_DISPLAY_LENGTH) {
     result = result.toExponential(MAX_DISPLAY_LENGTH);
@@ -40,7 +39,7 @@ roundAndDisplay = () => {
     return displayText;
 }
 
-//If the user has entered each part of an expression, call the operate function to evaluate the immediate pair of firstNumber and secondNumber
+//If the user has entered each part of an expression, evaluate the immediate pair of firstNumber and secondNumber
 //Then, the result of that pair's evaluation becomes assigned to firstNumber for the next operation, and so on. 
 //secondNumber is set to empty for the next operation, too.
 //As users click any of the operator buttons, they will see the results from each operation step as they are added
@@ -57,7 +56,6 @@ evaluateCurrentPair = () => {
 handleKeypress = (ev)  => {
   const ALLOWED_KEYS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "/", "*", "+", "-", "=", "c", "Backspace", "Enter"];
   let pressedKey = ev.key;
-  //prevents default behavior if the user's keypress is not included in the allowed keys array
   if (!ALLOWED_KEYS.includes(pressedKey)) {
     ev.preventDefault();
     return;
@@ -156,23 +154,15 @@ handleClick = (ev) => {
       }
   }
 
-  //once the value of displayText is determined, assign it as new text in the calculator's display container div
   return DISPLAY.textContent = displayText;
 }
 
-//for keyboard controls, adding the event listener to the window ensures that the user can input keypresses as long as the window is active
 NUMPAD.addEventListener("click", handleClick);
 window.addEventListener("keydown", handleKeypress);
 
-add = (a, b) => {
-    return a + b;
-};
-subtract = (a, b) => {
-    return a - b;
-};
-multiply = (a, b) => {
-    return a * b;
-};
+add = (a, b) => a + b;
+subtract = (a, b) => a - b;
+multiply = (a, b) => a * b;
 divide = (numerator, denominator) => {
     if (denominator === 0) {
       return MSG_DIV_BY_ZERO;
@@ -181,8 +171,6 @@ divide = (numerator, denominator) => {
 };
 
 operate = (firstNumber, operator, secondNumber) => {
-  //converting the first and second number inputs from strings to floating point (decimal) numbers. 
-  //This makes it so that the the previously defined math functions (addition, subtraction, multiplication, division) can operate on them
   firstNumber = parseFloat(firstNumber);
   secondNumber = parseFloat(secondNumber);
 
@@ -201,10 +189,7 @@ operate = (firstNumber, operator, secondNumber) => {
 deleteInput = () => {
   //If there's a result from a previous calculation, 
   //whatever is in displayText becomes the value of firstNumber for the new calculation (minus 1 char to account for the backspace).
-  //slice method returns a copy of displayText with 1 fewer char at the end
-  //operator, secondNumber, and the result are cleared, and displayText is updated to reflect the backspace.
   //if a result hasn't been calculated yet, remove 1 char from the latest part of the expression and update the display accordingly.
-
   if (result) {
     firstNumber = displayText.slice(0, -1);
     secondNumber = "";
