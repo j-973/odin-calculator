@@ -9,6 +9,8 @@ let displayText = "",
     secondNumber = "",
     result = "";
 
+clear = () => displayText = firstNumber = operator = secondNumber = result = "";
+
 checkDecimal = () => {
   if (operator === "") {
     if (!firstNumber.includes(".")) {
@@ -53,35 +55,46 @@ evaluateCurrentPair = () => {
 }
 
 handleKeypress = (ev)  => {
+  const IGNORED_KEYS = ["Shift", "Control", "Alt", "Tab", "CapsLock"];
   let pressedKey = ev.key;
+
+  //if the key the user presses is included in the ignored keys array, prevent the default behavior (modifier keys showing on display)
+  if (IGNORED_KEYS.includes(pressedKey)) {
+    ev.preventDefault();
+    return;
+  }
   switch (pressedKey) {
-      case '.':
+      case ".":
           checkDecimal();
           break;
-      case '/':
+      case "/":
           evaluateCurrentPair();
           operator = "÷";
           displayText += operator;
           break;
-      case '*':
+      case "*":
           evaluateCurrentPair();
           operator = "×";
           displayText += operator;
           break;
-      case '+':
+      case "+":
           evaluateCurrentPair();
           operator = "+";
           displayText += operator;
           break;
-      case '-':
+      case "-":
           evaluateCurrentPair();
           operator = "-";
           displayText += operator;
           break;
-      case 'Enter':
+      case "c":
+        clear();
+        break;
+      case "=":
+      case "Enter":
           evaluateCurrentPair();
           break;
-      case 'Backspace':
+      case "Backspace":
         deleteInput();
     break;
       default:
@@ -129,7 +142,7 @@ handleClick = (ev) => {
       evaluateCurrentPair();
       break;
     case "clear":
-      displayText = firstNumber = operator = secondNumber = result = "";
+      clear();
       break;
 		case "backspace":
 			deleteInput();
