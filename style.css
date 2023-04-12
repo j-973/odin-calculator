@@ -23,7 +23,7 @@ button {
     width: 5rem;
     height: 5rem;
     font-size: 1.5rem;
-    background-color: #E4DFC6;
+    background-color: #FFFFA8;
     border: 1px solid #000000;
 }
     button:hover {
@@ -38,11 +38,11 @@ button {
 }
 
 .function {
-    background-color: #A9A6B1;
+    background-color: #ECDA80;
 }
 
 .operator {
-    background-color: #B0BE95;
+    background-color: #BBDD77;
 }
 
 #wrapper {

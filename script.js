@@ -39,11 +39,11 @@ roundAndDisplay = () => {
     return displayText;
 }
 
-//If the user has entered each part of an expression, evaluate the immediate pair of firstNumber and secondNumber
+//If the user has entered each part of an expression, calculate the result of the immediate pair of firstNumber and secondNumber
 //Then, the result of that pair's evaluation becomes assigned to firstNumber for the next operation, and so on. 
 //secondNumber is set to empty for the next operation, too.
 //As users click any of the operator buttons, they will see the results from each operation step as they are added
-evaluateCurrentPair = () => {
+calculateCurrentPair = () => {
   if (firstNumber != "" && operator != "" && secondNumber != "") {
     result = operate(firstNumber, operator, secondNumber);
     checkDivByZero();
@@ -66,22 +66,22 @@ handleKeypress = (ev)  => {
           break;
       case "/":
           ev.preventDefault();
-          evaluateCurrentPair();
+          calculateCurrentPair();
           operator = "÷";
           displayText += operator;
           break;
       case "*":
-          evaluateCurrentPair();
+          calculateCurrentPair();
           operator = "×";
           displayText += operator;
           break;
       case "+":
-          evaluateCurrentPair();
+          calculateCurrentPair();
           operator = "+";
           displayText += operator;
           break;
       case "-":
-          evaluateCurrentPair();
+          calculateCurrentPair();
           operator = "-";
           displayText += operator;
           break;
@@ -90,7 +90,7 @@ handleKeypress = (ev)  => {
         break;
       case "=":
       case "Enter":
-          evaluateCurrentPair();
+          calculateCurrentPair();
           break;
       case "Backspace":
         deleteInput();
@@ -117,27 +117,27 @@ handleClick = (ev) => {
       checkDecimal();
       break;
     case "division":
-      evaluateCurrentPair();
+      calculateCurrentPair();
       operator = "÷";
       displayText += operator;
       break;
     case "multiplication":
-      evaluateCurrentPair();
+      calculateCurrentPair();
       operator = "×";
       displayText += operator;
       break;
     case "addition":
-      evaluateCurrentPair();
+      calculateCurrentPair();
       operator = "+";
       displayText += operator;
       break;
     case "subtraction":
-      evaluateCurrentPair();
+      calculateCurrentPair();
       operator = "-";
       displayText += operator;
       break;
     case "equals":
-      evaluateCurrentPair();
+      calculateCurrentPair();
       break;
     case "clear":
       clear();
