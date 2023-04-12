@@ -30,7 +30,7 @@ checkDivByZero = () => {
   return;
 }}
 
-//convert's results to exponential notation so they fit on the calculator display
+//converts results to exponential notation so they fit on the calculator display
 roundAndDisplay = () => {
   if (result.length > MAX_DISPLAY_LENGTH) {
     result = result.toExponential(MAX_DISPLAY_LENGTH);
@@ -65,6 +65,7 @@ handleKeypress = (ev)  => {
           checkDecimal();
           break;
       case "/":
+          ev.preventDefault();
           evaluateCurrentPair();
           operator = "÷";
           displayText += operator;
